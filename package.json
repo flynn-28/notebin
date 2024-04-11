@@ -1,0 +1,20 @@
+{
+  "name": "notebin",
+  "version": "1.0.0",
+  "description": "Basic note sharing application",
+  "main": "server.js",
+  "scripts": {
+    "test": "node test.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flynn-28/notebin.git"
+  },
+  "author": "Aiden Flynn",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/flynn-28/notebin/issues"
+  },
+  "homepage": "https://github.com/flynn-28/notebin#readme"
+}
