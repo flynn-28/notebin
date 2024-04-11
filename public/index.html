@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Sharing App</title>
+</head>
+<body>
+    <h1>Note Sharing App</h1>
+    <form id="noteForm">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" required><br>
+        <label for="content">Content:</label><br>
+        <textarea id="content" name="content" required></textarea><br>
+        <button type="submit">Save Note</button>
+    </form>
+
+    <script>
+        async function fetchSavedNotes() {
+            try {
+                const response = await fetch('/api/notes');
+                const savedNotes = await response.json();
+                const savedNotesDiv = document.getElementById('savedNotes');
+                savedNotesDiv.innerHTML = '<h2>Saved Notes</h2>';
+                savedNotes.forEach(note => {
+                    const noteLink = window.location.origin + note.link;
+                    savedNotesDiv.innerHTML += `<a href="${noteLink}" target="_blank">${note.title}</a><br>`;
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    
+        window.onload = fetchSavedNotes;
+    
+        document.getElementById('noteForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const title = formData.get('title');
+            const content = formData.get('content');
+            try {
+                const response = await fetch('/api/notes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title, content })
+                });
+                if (response.ok) {
+                    alert('Note saved');
+                    document.getElementById('noteForm').reset();
+                    fetchSavedNotes();
+                } else {
+                    const data = await response.json();
+                    alert(data.error || 'Failed to save');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('error occurred while saving');
+            }
+        });
+    </script>
+    
+</body>
+</html>
+<div id="savedNotes"></div>
