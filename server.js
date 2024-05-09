@@ -9,7 +9,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, './')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 app.get('/api/notes', (req, res) => {
     const savedNotes = req.cookies.savedNotes || [];
